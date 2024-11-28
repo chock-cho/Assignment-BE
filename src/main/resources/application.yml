@@ -14,3 +14,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+
+swagger:
+  tag:
+    test: 'A. Test API'
+
+spring-doc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: method
