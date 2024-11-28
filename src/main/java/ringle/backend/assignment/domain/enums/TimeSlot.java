@@ -2,6 +2,8 @@ package ringle.backend.assignment.domain.enums;
 
 import lombok.Getter;
 
+import java.time.LocalTime;
+
 @Getter
 public enum TimeSlot {
     SLOT_00_00(1), SLOT_00_30(2), SLOT_01_00(3), SLOT_01_30(4), SLOT_02_00(5), SLOT_02_30(6),
