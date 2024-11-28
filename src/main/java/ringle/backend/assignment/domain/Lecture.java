@@ -1,19 +1,21 @@
 package ringle.backend.assignment.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import ringle.backend.assignment.domain.common.BaseEntity;
 import ringle.backend.assignment.domain.enums.Duration;
 import ringle.backend.assignment.domain.enums.TimeSlot;
+import ringle.backend.assignment.domain.mapping.Reservation;
 
 import java.time.LocalDate;
+/*  Lecture 엔티티: 튜터의 수업 가능 시간을 관리하는 역할에 집중합니다. */
 @Entity
 @Getter
 @Setter
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "timeslot"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "timeSlot"})})
 public class Lecture extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +25,7 @@ public class Lecture extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TimeSlot timeslot;  // 수업 시작
+    private TimeSlot timeSlot;  // 수업 시작
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

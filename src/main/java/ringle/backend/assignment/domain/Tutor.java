@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import ringle.backend.assignment.domain.common.BaseEntity;
+import ringle.backend.assignment.domain.mapping.Reservation;
 
 import java.util.List;
 
