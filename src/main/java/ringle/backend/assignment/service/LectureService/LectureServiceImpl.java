@@ -2,6 +2,7 @@ package ringle.backend.assignment.service.LectureService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
 import ringle.backend.assignment.aspect.apiPayload.exception.handler.TempHandler;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -76,5 +78,35 @@ public class LectureServiceImpl implements LectureService{
 
         lectureRepository.delete(lecture);
         return LectureConverter.lectureDeleteResponseDto(req.getLectureId(), "수업 가능 시간대가 성공적으로 비활성화되었습니다.");
+    }
+
+    @Override
+    public List<LectureResponseDto.LectureGetResponse> getAvailableTutorsByTimeSlotAndLength(TimeSlot timeSlot, LectureType lectureType) {
+        List<Lecture> availableLectures = lectureRepository.findByStartTimeSlotAndLectureTypeAndIsAvailableTrue(timeSlot, lectureType);
+
+        List<LectureResponseDto.LectureGetResponse> responseDtos = new ArrayList<>();
+
+        for (Lecture lecture : availableLectures) {
+            TimeSlot previousSlot = TimeSlot.getPreviousSlot(lecture.getStartTimeSlot());
+            TimeSlot nextSlot = TimeSlot.getNextSlot(lecture.getStartTimeSlot());
+
+            Optional<Lecture> previousLecture = previousSlot != null
+                    ? lectureRepository.findByTutorAndDateAndStartTimeSlot(lecture.getTutor(), lecture.getDate(), previousSlot)
+                    : Optional.empty();
+
+            Optional<Lecture> nextLecture = nextSlot != null
+                    ? lectureRepository.findByTutorAndDateAndStartTimeSlot(lecture.getTutor(), lecture.getDate(), nextSlot)
+                    : Optional.empty();
+
+            LectureResponseDto.LectureGetResponse dto = lectureConverter.toLectureGetResponse(
+                    lecture,
+                    previousLecture.orElse(null),
+                    nextLecture.orElse(null)
+            );
+
+            responseDtos.add(dto);
+        }
+
+        return responseDtos;
     }
 }

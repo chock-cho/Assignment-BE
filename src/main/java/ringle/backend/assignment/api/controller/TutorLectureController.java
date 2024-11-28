@@ -16,9 +16,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tutor")
-@Tag(name = "${swagger.tag.lecture}")
+@Tag(name = "${swagger.tag.tutor_lecture}")
 
-public class LectureController {
+public class TutorLectureController {
     private final LectureService lectureService;
 
     @PostMapping("/lecture")

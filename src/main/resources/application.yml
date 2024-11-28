@@ -18,7 +18,8 @@ spring:
 swagger:
   tag:
     test: 'A. Test API'
-    lecture: '[튜터 API] 수업 가능한 시간대 API:'
+    tutor_lecture: '[튜터 API] 수업 가능한 시간대 API'
+    student_lecture: '[학생 API] 수업 조회 API'
 spring-doc:
   swagger-ui:
     tags-sorter: alpha
