@@ -9,5 +9,5 @@ import java.time.LocalDate;
 
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
-    boolean existsByTutorAndDateAndTimeSlot(Tutor tutor, LocalDate date, TimeSlot timeSlot);
+    boolean existsByTutorAndDateAndStartTimeSlot(Tutor tutor, LocalDate date, TimeSlot startTimeSlot);
 }

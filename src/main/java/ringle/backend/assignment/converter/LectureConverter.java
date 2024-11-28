@@ -27,8 +27,15 @@ public class LectureConverter {
                 .tutorMajor(lecture.getTutor().getMajor())
                 .tutorUniv(lecture.getTutor().getUniversity())
                 .date(String.valueOf(lecture.getDate()))
-                .timeSlots(lecture.getTimeSlot().toString())
+                .timeSlots(lecture.getStartTimeSlot().toString())
                 .isAvailable(lecture.isAvailable())
+                .build();
+    }
+
+    public static LectureResponseDto.LectureDeleteResponse lectureDeleteResponseDto(Long lectureId, String message) {
+        return LectureResponseDto.LectureDeleteResponse.builder()
+                .lectureId(lectureId)
+                .message(message)
                 .build();
     }
 }

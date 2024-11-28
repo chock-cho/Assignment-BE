@@ -11,5 +11,5 @@ public interface LectureService {
     List<LectureResponseDto.LectureCreateResponse> activateLecture(LectureRequestDto.LectureCreateRequest req);
 
     // 삭제 요청한 튜터의 id + 삭제할 수업 삭제 메서드
-    void deleteLecture(LectureRequestDto.LectureDeleteRequest req);
+    LectureResponseDto.LectureDeleteResponse deleteLecture(LectureRequestDto.LectureDeleteRequest req);
 }

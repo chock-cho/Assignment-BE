@@ -2,8 +2,8 @@ package ringle.backend.assignment.service.TempService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ringle.backend.assignment.api.apiPayload.code.status.ErrorStatus;
-import ringle.backend.assignment.api.apiPayload.exception.handler.TempHandler;
+import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
+import ringle.backend.assignment.aspect.apiPayload.exception.handler.TempHandler;
 
 @Service
 @RequiredArgsConstructor

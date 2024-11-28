@@ -3,14 +3,14 @@ package ringle.backend.assignment.service.LectureService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ringle.backend.assignment.api.apiPayload.code.status.ErrorStatus;
-import ringle.backend.assignment.api.apiPayload.exception.handler.TempHandler;
+import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
+import ringle.backend.assignment.aspect.apiPayload.exception.handler.TempHandler;
 import ringle.backend.assignment.api.dto.RequestDto.LectureRequestDto;
 import ringle.backend.assignment.api.dto.ResponseDto.LectureResponseDto;
 import ringle.backend.assignment.converter.LectureConverter;
 import ringle.backend.assignment.domain.Lecture;
 import ringle.backend.assignment.domain.Tutor;
-import ringle.backend.assignment.domain.enums.Duration;
+import ringle.backend.assignment.domain.enums.LectureType;
 import ringle.backend.assignment.domain.enums.TimeSlot;
 import ringle.backend.assignment.repository.LectureRepository;
 import ringle.backend.assignment.repository.TutorRepository;
@@ -43,18 +43,20 @@ public class LectureServiceImpl implements LectureService{
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             for (TimeSlot timeSlot : TimeSlot.values()) {
                 if (timeSlot.compareTo(startTimeSlot) >= 0 && timeSlot.compareTo(endTimeSlot) <= 0) {
-                    boolean exists = lectureRepository.existsByTutorAndDateAndTimeSlot(tutor, date, timeSlot);
+                    boolean exists = lectureRepository.existsByTutorAndDateAndStartTimeSlot(tutor, date, timeSlot);
                     if (!exists) {
                         Lecture lecture = new Lecture();
                         lecture.setTutor(tutor);
                         lecture.setDate(date);
-                        lecture.setTimeSlot(timeSlot);
-                        lecture.setDuration(Duration._30_MIN);
+                        lecture.setStartTimeSlot(timeSlot);
+                        lecture.setLectureType(LectureType._30_MIN);
                         lecture.setAvailable(true);
 
                         lectureRepository.save(lecture);
                         lectures.add(lecture);
                     }
+                    else
+                        throw new TempHandler(ErrorStatus.LECTURE_BAD_REQUEST);
                 }
             }
         }
@@ -62,7 +64,7 @@ public class LectureServiceImpl implements LectureService{
         }
 
     @Override
-    public void deleteLecture(LectureRequestDto.LectureDeleteRequest req){
+    public LectureResponseDto.LectureDeleteResponse deleteLecture(LectureRequestDto.LectureDeleteRequest req){
         Tutor tutor = tutorRepository.findById(req.getTutorId())
                 .orElseThrow(()-> new TempHandler(ErrorStatus.TUTOR_NOT_FOUND));
 
@@ -73,5 +75,6 @@ public class LectureServiceImpl implements LectureService{
             throw new TempHandler(ErrorStatus.TUTOR_FORBIDDEN);
 
         lectureRepository.delete(lecture);
+        return LectureConverter.lectureDeleteResponseDto(req.getLectureId(), "수업 가능 시간대가 성공적으로 비활성화되었습니다.");
     }
 }

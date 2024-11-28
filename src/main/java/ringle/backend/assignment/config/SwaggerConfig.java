@@ -1,13 +1,18 @@
 package ringle.backend.assignment.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @OpenAPIDefinition(servers = {@Server(url = "/", description = "Default Server URL")})
 @Configuration
@@ -20,9 +25,8 @@ public class SwaggerConfig {
                         .in(SecurityScheme.In.HEADER)
                         .name("Authorization"));
     }
-
     @Bean
-    public OpenAPI PrototyneAPI() {
+    public OpenAPI RingleAPI() {
         Info info = new Info()
                 .title("Ringle BackEnd 인턴 과제 API")
                 .description("""

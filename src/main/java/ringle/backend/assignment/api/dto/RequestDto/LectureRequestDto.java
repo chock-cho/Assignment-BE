@@ -34,12 +34,12 @@ public class LectureRequestDto {
     @Getter
     public static class LectureDeleteRequest {
         @JsonProperty("tutorId")
-        @NotNull(message = "당신의 id를 입력해주세요.")
+        @NotNull(message = "당신의 ID를 입력해주세요.")
         // 본인이 등록한 lectures에 대해서만 삭제 권한을 가지고 있어야 한다.
         private Long tutorId;
 
         @JsonProperty("lectureId")
-        @NotNull(message = "비활성화(삭제)할 수업의 id를 입력해주세요.")
+        @NotNull(message = "비활성화(삭제)할 수업의 ID를 입력해주세요.")
         private Long lectureId;
     }
 }
