@@ -1,11 +1,11 @@
-package ringle.backend.assignment.api.apiPayload.exception;
+package ringle.backend.assignment.aspect.apiPayload.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import ringle.backend.assignment.api.apiPayload.code.status.SuccessStatus;
+import ringle.backend.assignment.aspect.apiPayload.code.status.SuccessStatus;
 
 @Getter
 @AllArgsConstructor

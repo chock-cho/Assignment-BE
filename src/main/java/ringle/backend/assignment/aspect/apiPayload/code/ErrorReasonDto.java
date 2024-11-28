@@ -1,4 +1,4 @@
-package ringle.backend.assignment.api.apiPayload.code;
+package ringle.backend.assignment.aspect.apiPayload.code;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;

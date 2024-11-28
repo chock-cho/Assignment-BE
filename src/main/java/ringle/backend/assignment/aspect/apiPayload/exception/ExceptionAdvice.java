@@ -1,4 +1,4 @@
-package ringle.backend.assignment.api.apiPayload.exception;
+package ringle.backend.assignment.aspect.apiPayload.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ringle.backend.assignment.api.apiPayload.code.ErrorReasonDto;
-import ringle.backend.assignment.api.apiPayload.code.status.ErrorStatus;
+import ringle.backend.assignment.aspect.apiPayload.code.ErrorReasonDto;
+import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.util.LinkedHashMap;

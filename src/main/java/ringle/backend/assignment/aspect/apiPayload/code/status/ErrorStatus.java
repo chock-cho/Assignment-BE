@@ -1,11 +1,10 @@
-package ringle.backend.assignment.api.apiPayload.code.status;
+package ringle.backend.assignment.aspect.apiPayload.code.status;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import ringle.backend.assignment.api.apiPayload.code.BaseErrorCode;
-import ringle.backend.assignment.api.apiPayload.code.ErrorReasonDto;
-import ringle.backend.assignment.domain.Lecture;
+import ringle.backend.assignment.aspect.apiPayload.code.BaseErrorCode;
+import ringle.backend.assignment.aspect.apiPayload.code.ErrorReasonDto;
 
 @Getter
 @AllArgsConstructor
@@ -24,7 +23,13 @@ public enum ErrorStatus implements BaseErrorCode {
     TUTOR_FORBIDDEN(HttpStatus.BAD_REQUEST, "TUTOR4002", "튜터 본인이 등록한 수업만 삭제할 수 있습니다."),
 
     // Lecture 관련 exception
-    LECTURE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LECTURE4001", "존재하지 않는 수업입니다.");
+    LECTURE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LECTURE4001", "존재하지 않는 수업입니다."),
+    LECTURE_FORBIDDEN(HttpStatus.BAD_REQUEST, "LECTURE4002", "수업 시간은 항상 현재 시각 이후여야 합니다."),
+    LECTURE_BAD_REQUEST(HttpStatus.BAD_REQUEST, "LECTURE4003", "이미 활성화된 타임 슬롯입니다."),
+
+    // Reservation 관련 exception
+    RESERVATION_FORBIDDEN(HttpStatus.BAD_REQUEST, "RESERVATION4001", "예약은 수업 시작 30분 전까지만 가능합니다."),
+    RESERVATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "RESERVATION4002", "해당 예약 요청에 가능한 타임 슬롯이 없습니다");
 
     private final HttpStatus httpStatus;
     private final String code;

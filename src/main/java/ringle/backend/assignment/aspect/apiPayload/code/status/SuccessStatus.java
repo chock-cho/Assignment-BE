@@ -1,4 +1,4 @@
-package ringle.backend.assignment.api.apiPayload.code.status;
+package ringle.backend.assignment.aspect.apiPayload.code.status;
 
 import lombok.Getter;
 
