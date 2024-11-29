@@ -17,6 +17,8 @@ import ringle.backend.assignment.repository.LectureRepository;
 import ringle.backend.assignment.repository.ReservationRepository;
 import ringle.backend.assignment.repository.StudentRepository;
 
+import java.util.List;
+
 import static ringle.backend.assignment.domain.enums.LectureType._30_MIN;
 import static ringle.backend.assignment.domain.enums.LectureType._60_MIN;
 
@@ -66,6 +68,51 @@ public class ReservationServiceImpl implements ReservationService{
         if(startTimeSlot == endTimeSlot) return 1; // 30분 수업
         else if(startTimeSlot + 1 == endTimeSlot) return 2; // 60분 수업
         else return -1; // 오류 처리
+    }
+
+    @Override
+    public List<ReservationResponseDto.ReservationInfoResponse> getMyReservations(Long studentId) {
+        // 학생 ID로 예약 내역 조회
+        List<Reservation> myReservations = reservationRepository.findByStudentId(studentId);
+
+        // 조회된 데이터를 ReservationResponseDto로 변환
+        return myReservations.stream()
+                .map(reservation -> {
+                    // 예약된 강의 타입 확인
+                    String reservedLectureType = reservation.getLectureType().name();
+
+                    // LectureInfo 빌드
+                    ReservationResponseDto.ReservationInfoResponse.LectureInfo lectureInfo = ReservationResponseDto.ReservationInfoResponse.LectureInfo.builder()
+                            .startLecture(
+                                    ReservationResponseDto.ReservationInfoResponse.LectureDetail.builder()
+                                            .lectureId(reservation.getLectureId1().getId())
+                                            .lectureTimeSlot(reservation.getLectureId1().getStartTimeSlot().name())
+                                            .build()
+                            )
+                            .endLecture(
+                                    // lectureType이 _30_MIN이면 endLecture는 포함하지 않음
+                                    "_30_MIN".equals(reservedLectureType) ? null :
+                                            ReservationResponseDto.ReservationInfoResponse.LectureDetail.builder()
+                                                    .lectureId(reservation.getLectureId2().getId())
+                                                    .lectureTimeSlot(reservation.getLectureId2().getStartTimeSlot().name())
+                                                    .build()
+                            )
+                            .build();
+
+                    // ReservationResponseDto 빌드
+                    return ReservationResponseDto.ReservationInfoResponse.builder()
+                            .reservationId(reservation.getId())
+                            .reservedLectureType(reservedLectureType)
+                            .tutorInfo(
+                                    ReservationResponseDto.ReservationInfoResponse.TutorInfo.builder()
+                                            .tutorId(reservation.getTutor().getId())
+                                            .tutorName(reservation.getTutor().getName())
+                                            .build()
+                            )
+                            .lectureInfo(lectureInfo)
+                            .build();
+                })
+                .toList();
     }
 
 }

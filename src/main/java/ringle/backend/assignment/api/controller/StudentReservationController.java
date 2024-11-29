@@ -11,6 +11,8 @@ import ringle.backend.assignment.aspect.annotation.ValidateReservation;
 import ringle.backend.assignment.aspect.apiPayload.exception.ApiResponse;
 import ringle.backend.assignment.service.ReservationService.ReservationService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/student")
@@ -39,5 +41,30 @@ public class StudentReservationController {
             @RequestParam Long studentId,
             @RequestBody @Valid ReservationRequestDto.ReservationCreateRequest req){
         return ApiResponse.onSuccess(reservationService.makeReservation(studentId, req));
+    }
+
+    @PostMapping("/myReservation")
+    @ValidateReservation
+    @Operation(summary = "신청한 수업 목록 조회 API - 학생이 신청한 수업 목록을 조회합니다.",
+            description = """
+                     학생이 **신청한 수업 목록을 조회**합니다. \s
+                     *  ️예약한 ️수업은 총 30분, 60분 수업이 있습니다.\s
+                     * 30분 수업 정보 반환 시, 반환되는 lectureInfo애 첫 교시(startLecture)에 해당하는 수업의 정보값만 반환됩니다. \s
+                     * 60분 수업 정보 반환 시, 반환되는 lectureInfo에 첫 교시(startLecture)와 마지막 교시(endLecture)에 해당하는 수업의 정보값이 반환됩니다. \s
+                     \s
+                     [RequestParam] \s
+                     - studentId : 신청을 시도하는 학생의 id(Long) \s
+                     - 해당 studentId는 인증, 인가 로직 구현 후 Header의 Authorization에 추가 될 예정입니다. \s
+                     \s
+                     [ResponseBody] \s
+                     - reservationId : 신청한 수업 내역의 예약 id(Long) \s
+                     - reservedLectureType: 신청한 수업 내역의 수업 타입(String) \s
+                     - tutorInfo: 신청한 수업 내역의 튜터 정보(tutorId, tutorName) \s
+                     - lectureInfo: 신청한 수업 내역의 교시별 수업 정보(tutorId, tutorName) \s
+                     \s
+                    \s""")
+    public ApiResponse<List<ReservationResponseDto.ReservationInfoResponse>> getReservations(
+            @RequestParam Long studentId){
+        return ApiResponse.onSuccess(reservationService.getMyReservations(studentId));
     }
 }
