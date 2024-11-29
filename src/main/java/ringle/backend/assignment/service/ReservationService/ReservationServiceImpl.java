@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ringle.backend.assignment.api.dto.RequestDto.ReservationRequestDto;
 import ringle.backend.assignment.api.dto.ResponseDto.ReservationResponseDto;
+import ringle.backend.assignment.aspect.annotation.ValidateReservation;
 import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
 import ringle.backend.assignment.aspect.apiPayload.exception.handler.TempHandler;
 import ringle.backend.assignment.converter.ReservationConverter;
@@ -31,6 +32,7 @@ public class ReservationServiceImpl implements ReservationService{
     private final StudentRepository studentRepository;
     @Override
     @Transactional
+    @ValidateReservation
     public ReservationResponseDto.ReservationCreateResponse makeReservation(Long studentId, ReservationRequestDto.ReservationCreateRequest req){
         Lecture startLecture = lectureRepository.findById(req.getStartLectureId())
                 .orElseThrow(() -> new TempHandler(ErrorStatus.RESERVATION_NOT_FOUND));
@@ -54,7 +56,6 @@ public class ReservationServiceImpl implements ReservationService{
                 ()-> new TempHandler(ErrorStatus.STUDENT_NOT_FOUND));
 
         Tutor reqTutor = startLecture.getTutor(); // 해당 수업에 해당하는 튜터 정보
-
 
         Reservation newReservation = reservationConverter.toEntity(startLecture, endLecture, reqStudent, reqTutor, reqlectureType);
         reservationRepository.save(newReservation);

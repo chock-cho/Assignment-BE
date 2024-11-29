@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @Slf4j
 public class ReservationAspect {
     @Before("@annotation(validateReservation) && args(reservation, ..)")
-    public void validateReservationAvailability(JoinPoint joinPoint, ValidateReservation validateReservation, Reservation reservation) {
+    public void validateReservationAvailability(ValidateReservation validateReservation, Reservation reservation) {
         Lecture lecture1 = reservation.getLectureId1();
         Lecture lecture2 = reservation.getLectureId2();
 

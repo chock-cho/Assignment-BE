@@ -20,7 +20,6 @@ import java.util.List;
 public class StudentReservationController {
     private final ReservationService reservationService;
     @PostMapping("/reservation")
-    @ValidateReservation
     @Operation(summary = "수업 신청 API - 학생이 튜터가 오픈한 수업을 신청합니다.",
             description = """
                      학생이 **오픈한 수업을 신청.**합니다. \s
@@ -32,10 +31,10 @@ public class StudentReservationController {
                      - studentId : 신청을 시도하는 학생의 id(Long) \s
                      - 해당 studentId는 인증, 인가 로직 구현 후 Header의 Authorization에 추가 될 예정입니다. \s
                      \s
-                     [Body]\s
-                     - ⚠️ tutorId : 신청하려는 수업의 튜터 id(Long)\s
-                     - ⚠️ startLectureId : 신청하려는 수업의 1교시 수업 id(Long)" \s
-                     - ⚠️ endLectureId : 신청하려는 수업의 2교시 수업 id(Long)" \s
+                     [RequestBody]\s
+                     - ⚠️ `tutorId` : 신청하려는 수업의 튜터 id(Long)\s
+                     - ⚠️ `startLectureId` : 신청하려는 수업의 1교시 수업 id(Long)" \s
+                     - ⚠️ `endLectureId` : 신청하려는 수업의 2교시 수업 id(Long)" \s
                     \s""")
     public ApiResponse<ReservationResponseDto.ReservationCreateResponse> createReservation(
             @RequestParam Long studentId,
@@ -43,8 +42,7 @@ public class StudentReservationController {
         return ApiResponse.onSuccess(reservationService.makeReservation(studentId, req));
     }
 
-    @PostMapping("/myReservation")
-    @ValidateReservation
+    @GetMapping("/myReservation")
     @Operation(summary = "신청한 수업 목록 조회 API - 학생이 신청한 수업 목록을 조회합니다.",
             description = """
                      학생이 **신청한 수업 목록을 조회**합니다. \s
