@@ -49,7 +49,7 @@ public class StudentReservationController {
             description = """
                      학생이 **신청한 수업 목록을 조회**합니다. \s
                      *  ️예약한 ️수업은 총 30분, 60분 수업이 있습니다.\s
-                     * 30분 수업 정보 반환 시, 반환되는 lectureInfo애 첫 교시(startLecture)에 해당하는 수업의 정보값만 반환됩니다. \s
+                     * 30분 수업 정보 반환 시, 반환되는 lectureInfo에 첫 교시(startLecture)에 해당하는 수업의 정보값만 반환됩니다. \s
                      * 60분 수업 정보 반환 시, 반환되는 lectureInfo에 첫 교시(startLecture)와 마지막 교시(endLecture)에 해당하는 수업의 정보값이 반환됩니다. \s
                      \s
                      [RequestParam] \s
@@ -60,8 +60,9 @@ public class StudentReservationController {
                      - reservationId : 신청한 수업 내역의 예약 id(Long) \s
                      - reservedLectureType: 신청한 수업 내역의 수업 타입(String) \s
                      - tutorInfo: 신청한 수업 내역의 튜터 정보(tutorId, tutorName) \s
-                     - lectureInfo: 신청한 수업 내역의 교시별 수업 정보(tutorId, tutorName) \s
-                     \s
+                     - lectureInfo: 신청한 수업 내역의 교시별 수업 정보(\s
+                     startLecture(lectureId, lectureTimeSlot), endLecture(lectureId, lectureTimeSlot)
+                     ) \s
                     \s""")
     public ApiResponse<List<ReservationResponseDto.ReservationInfoResponse>> getReservations(
             @RequestParam Long studentId){
