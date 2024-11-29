@@ -2,12 +2,10 @@ package ringle.backend.assignment.service.LectureService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import ringle.backend.assignment.aspect.annotation.ValidateLecture;
 import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
 import ringle.backend.assignment.aspect.apiPayload.exception.handler.TempHandler;
-import ringle.backend.assignment.api.dto.RequestDto.LectureRequestDto;
 import ringle.backend.assignment.api.dto.ResponseDto.LectureResponseDto;
 import ringle.backend.assignment.converter.LectureConverter;
 import ringle.backend.assignment.domain.Lecture;
@@ -22,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -83,15 +82,20 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public List<LectureResponseDto.LectureGetResponse> getAvailableTutors(LocalDate date, TimeSlot timeSlot, LectureType lectureType) {
-        List<Tutor> tutors = tutorRepository.findAll();
+        List<Tutor> tutors = tutorRepository.findAllWithAvailableLectures();
+        // FetchJoin으로 N+1 문제 해결
+        // 기존 코드 : tutorRepository.findAll() 로 모든 튜터의 데이터 로드
         List<LectureResponseDto.LectureGetResponse> responseDtos = new ArrayList<>();
 
         for (Tutor tutor : tutors) {
-            List<Lecture> availableLectures = lectureRepository.findByTutorAndDateAndStartTimeSlotAndIsAvailableTrue(tutor, date, timeSlot);
-            if (availableLectures.isEmpty()) {
-                System.out.println("튜터: " + tutor.getName() + "에 대해 사용 가능한 수업이 없습니다.");
-                continue;
-            }
+            // 튜터와 연관된 강의 데이터를 필터링
+            List<Lecture> availableLectures = tutor.getLectures().stream()
+                    .filter(lecture -> lecture.getDate().equals(date) // 날짜 필터
+                            && lecture.getStartTimeSlot().equals(timeSlot) // 타임슬롯 필터
+                            && lecture.isAvailable()) // 예약 가능 여부 필터
+                    .collect(Collectors.toList());
+
+            if (availableLectures.isEmpty()) continue; // 조건에 맞는 강의가 없으면 건너뛰기
 
             // If LectureType is _60_MIN, check the next slot as well
             if (lectureType == LectureType._60_MIN) {
@@ -102,9 +106,9 @@ public class LectureServiceImpl implements LectureService {
                 boolean isNextSlotAvailable = lectureRepository.existsByTutorAndDateAndStartTimeSlotAndIsAvailableTrue(tutor, date, nextSlot);
 
                 // Console logs
-                System.out.println("튜터: " + tutor.getName());
-                System.out.println("현재 슬롯: " + timeSlot + ", 다음 슬롯: " + nextSlot);
-                System.out.println("다음 슬롯 가능 여부: " + isNextSlotAvailable);
+//                System.out.println("튜터: " + tutor.getName());
+//                System.out.println("현재 슬롯: " + timeSlot + ", 다음 슬롯: " + nextSlot);
+//                System.out.println("다음 슬롯 가능 여부: " + isNextSlotAvailable);
 
                 if (!isNextSlotAvailable) continue; // Skip if the next slot is not available
             }
@@ -161,13 +165,23 @@ public class LectureServiceImpl implements LectureService {
 
     @Override
     public List<LectureResponseDto.LecturesGetResponseForTutor> getAvailableLectures(LocalDate startDate, LocalDate endDate, LectureType lectureType) {
-        List<Tutor> tutors = tutorRepository.findAll();
+        List<Tutor> tutors = tutorRepository.findAllWithAvailableLectures();
+        // FetchJoin으로 N+1 문제 해결
+        // 기존 코드 : tutorRepository.findAll() 로 모든 데이터 로드
+
         List<LectureResponseDto.LecturesGetResponseForTutor> responseDtos = new ArrayList<>();
 
         for (Tutor tutor : tutors) {
-            List<Lecture> lectures = lectureRepository.findByTutorAndDateBetweenAndIsAvailableTrue(tutor, startDate, endDate);
-            if (!lectures.isEmpty()) {
-                LectureResponseDto.LecturesGetResponseForTutor dto = lectureConverter.toLectureGetResponseForTutor(tutor, lectures);
+            // 필터링: startDate와 endDate 사이의 예약 가능한 강의만 추출
+            List<Lecture> filteredLectures = tutor.getLectures().stream()
+                    .filter(lecture -> lecture.getDate().isAfter(startDate.minusDays(1)) // startDate 포함
+                            && lecture.getDate().isBefore(endDate.plusDays(1)) // endDate 포함
+                            && lecture.isAvailable()) // 예약 가능 여부 확인
+                    .collect(Collectors.toList());
+
+            if (!filteredLectures.isEmpty()) {
+                // Lecture 데이터를 DTO로 변환
+                LectureResponseDto.LecturesGetResponseForTutor dto = lectureConverter.toLectureGetResponseForTutor(tutor, filteredLectures);
                 responseDtos.add(dto);
             }
         }
