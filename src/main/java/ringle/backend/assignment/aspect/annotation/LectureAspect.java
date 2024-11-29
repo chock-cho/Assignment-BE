@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 @Slf4j
 public class LectureAspect {
 
-    @Before("@annotation(validateLecture) && args(req, ..)")
-    public void validateLectureAvailability(JoinPoint joinPoint, ValidateLecture validateLecture, LectureRequestDto.LectureCreateRequest req) {
-        LocalDate startDate = req.getStartDate();
-        LocalDate endDate = req.getEndDate();
+    @Before("@annotation(validateLecture) && args(tutorId, startDate, endDate, ..)")
+    public void validateLectureAvailability(ValidateLecture validateLecture,
+                                            Long tutorId, LocalDate startDate, LocalDate endDate) {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
+        // 시작날짜와 종료날짜가 요청 시각보다 과거인지 확인
         if (startDate.isBefore(currentDateTime.toLocalDate()) || endDate.isBefore(currentDateTime.toLocalDate()))
             throw new TempHandler(ErrorStatus.LECTURE_FORBIDDEN);
 

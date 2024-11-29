@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import ringle.backend.assignment.aspect.annotation.ValidateLecture;
 import ringle.backend.assignment.aspect.apiPayload.code.status.ErrorStatus;
 import ringle.backend.assignment.aspect.apiPayload.exception.handler.TempHandler;
 import ringle.backend.assignment.api.dto.RequestDto.LectureRequestDto;
@@ -30,18 +31,18 @@ public class LectureServiceImpl implements LectureService {
     private final TutorRepository tutorRepository;
     private final LectureConverter lectureConverter;
 
+    @ValidateLecture
     @Override
     @Transactional
-    public List<LectureResponseDto.LectureCreateResponse> activateLecture(LectureRequestDto.LectureCreateRequest req) {
-        Tutor tutor = tutorRepository.findById(req.getTutorId())
+    public List<LectureResponseDto.LectureCreateResponse> activateLecture(
+            Long tutorId,
+            LocalDate startDate, LocalDate endDate,
+            TimeSlot startTimeSlot, TimeSlot endTimeSlot) {
+        Tutor tutor = tutorRepository.findById(tutorId)
                 .orElseThrow(() -> new TempHandler(ErrorStatus.TUTOR_NOT_FOUND));
 
         List<Lecture> lectures = new ArrayList<>();
 
-        LocalDate startDate = req.getStartDate();
-        LocalDate endDate = req.getEndDate();
-        TimeSlot startTimeSlot = req.getStartTimeSlot();
-        TimeSlot endTimeSlot = req.getEndTimeSlot();
         // 시작 날짜부터 종료 날짜까지 반복하며 수업 등록
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             for (TimeSlot timeSlot : TimeSlot.values()) {
@@ -66,18 +67,18 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    public LectureResponseDto.LectureDeleteResponse deleteLecture(LectureRequestDto.LectureDeleteRequest req) {
-        Tutor tutor = tutorRepository.findById(req.getTutorId())
+    public LectureResponseDto.LectureDeleteResponse deleteLecture(Long tutorId, Long lectureId) {
+        Tutor tutor = tutorRepository.findById(tutorId)
                 .orElseThrow(() -> new TempHandler(ErrorStatus.TUTOR_NOT_FOUND));
 
-        Lecture lecture = lectureRepository.findById(req.getLectureId())
+        Lecture lecture = lectureRepository.findById(lectureId)
                 .orElseThrow(() -> new TempHandler(ErrorStatus.LECTURE_NOT_FOUND));
 
-        if (!Objects.equals(lecture.getTutor().getId(), req.getTutorId()))
+        if (!Objects.equals(lecture.getTutor().getId(), lectureId))
             throw new TempHandler(ErrorStatus.TUTOR_FORBIDDEN);
 
         lectureRepository.delete(lecture);
-        return LectureConverter.lectureDeleteResponseDto(req.getLectureId(), "수업 가능 시간대가 성공적으로 비활성화되었습니다.");
+        return LectureConverter.lectureDeleteResponseDto(lectureId, "수업 가능 시간대가 성공적으로 비활성화되었습니다.");
     }
 
     @Override
