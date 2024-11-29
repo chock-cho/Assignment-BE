@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ringle.backend.assignment.api.dto.ResponseDto.LectureResponseDto;
+import ringle.backend.assignment.aspect.annotation.ValidateLecture;
 import ringle.backend.assignment.aspect.annotation.ValidateReservation;
 import ringle.backend.assignment.aspect.apiPayload.exception.ApiResponse;
 import ringle.backend.assignment.domain.enums.LectureType;

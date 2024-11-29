@@ -91,21 +91,21 @@ public class LectureServiceImpl implements LectureService {
                 System.out.println("튜터: " + tutor.getName() + "에 대해 사용 가능한 수업이 없습니다.");
                 continue;
             }
-            // LectureType이 _60_MIN인 경우, 다음 슬롯도 함께 체크 (슬롯이 30분 단위이기 때문에) //
+
+            // If LectureType is _60_MIN, check the next slot as well
             if (lectureType == LectureType._60_MIN) {
-
                 TimeSlot nextSlot = TimeSlot.getNextSlot(timeSlot);
-                if (nextSlot == null) continue; // 다음 슬롯이 없는 경우 건너뜀
+                if (nextSlot == null) continue; // Skip if there's no next slot
 
-                // 다음 슬롯이 예약 가능한지 확인
+                // Check if the next slot is available
                 boolean isNextSlotAvailable = lectureRepository.existsByTutorAndDateAndStartTimeSlotAndIsAvailableTrue(tutor, date, nextSlot);
 
-                // 콘솔 log
+                // Console logs
                 System.out.println("튜터: " + tutor.getName());
                 System.out.println("현재 슬롯: " + timeSlot + ", 다음 슬롯: " + nextSlot);
                 System.out.println("다음 슬롯 가능 여부: " + isNextSlotAvailable);
 
-                if (!isNextSlotAvailable) continue; // 다음 슬롯 예약이 가능하지 않으면 해당 수업 건너뜀
+                if (!isNextSlotAvailable) continue; // Skip if the next slot is not available
             }
 
             TimeSlot previousSlot = TimeSlot.getPreviousSlot(timeSlot);
@@ -119,19 +119,23 @@ public class LectureServiceImpl implements LectureService {
                     ? lectureRepository.findByTutorAndDateAndStartTimeSlot(tutor, date, nextSlot)
                     : Optional.empty();
 
+            // Updated TimeSlotInfo to include lectureId
             LectureResponseDto.LectureGetResponse.TimeSlotInfo previousSlotInfo = new LectureResponseDto.LectureGetResponse.TimeSlotInfo(
                     previousSlot != null ? previousSlot.name() : "N/A",
-                    previousLecture.map(Lecture::isAvailable).orElse(false)
+                    previousLecture.map(Lecture::isAvailable).orElse(false),
+                    previousLecture.map(Lecture::getId).orElse(null)
             );
 
             LectureResponseDto.LectureGetResponse.TimeSlotInfo currentSlotInfo = new LectureResponseDto.LectureGetResponse.TimeSlotInfo(
                     timeSlot.name(),
-                    availableLectures.get(0).isAvailable()
+                    availableLectures.get(0).isAvailable(),
+                    availableLectures.get(0).getId()
             );
 
             LectureResponseDto.LectureGetResponse.TimeSlotInfo nextSlotInfo = new LectureResponseDto.LectureGetResponse.TimeSlotInfo(
                     nextSlot != null ? nextSlot.name() : "N/A",
-                    nextLecture.map(Lecture::isAvailable).orElse(false)
+                    nextLecture.map(Lecture::isAvailable).orElse(false),
+                    nextLecture.map(Lecture::getId).orElse(null)
             );
 
             LectureResponseDto.LectureGetResponse dto = LectureResponseDto.LectureGetResponse.builder()
@@ -150,6 +154,7 @@ public class LectureServiceImpl implements LectureService {
 
         return responseDtos;
     }
+
 
 
 

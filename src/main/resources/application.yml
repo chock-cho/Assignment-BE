@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auo: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -20,6 +20,7 @@ swagger:
     test: 'A. Test API'
     tutor_lecture: '[튜터 API] 수업 가능한 시간대 API'
     student_lecture: '[학생 API] 수업 조회 API'
+    student_reservation: '[학생 API] 수업 신청 API'
 spring-doc:
   swagger-ui:
     tags-sorter: alpha

@@ -30,7 +30,12 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // Reservation 관련 exception
     RESERVATION_FORBIDDEN(HttpStatus.BAD_REQUEST, "RESERVATION4001", "예약은 수업 시작 30분 전까지만 가능합니다."),
-    RESERVATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "RESERVATION4002", "해당 예약 요청에 가능한 타임 슬롯이 없습니다");
+    RESERVATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "RESERVATION4002", "해당 예약 요청에 가능한 수업이 없습니다"),
+    RESERVATION_IMPOSSIBLE(HttpStatus.BAD_REQUEST, "RESERVATION4003", "해당 예약 요청의 튜터가 가능한 수업이 없습니다."),
+    RESERVATION_INVALID_REQEUST(HttpStatus.BAD_REQUEST, "RESERVATION4004", "수업 신청은 30분, 60분 단위로만 가능합니다."),
+
+    // Student 관련 exception
+    STUDENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "STUDENT4001", "존재하지 않는 학생입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

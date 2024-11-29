@@ -45,6 +45,7 @@ public class LectureResponseDto {
         public static class TimeSlotInfo {
             private String name;
             private boolean isAvailable;
+            private Long lectureId;
         }
 
         @Data

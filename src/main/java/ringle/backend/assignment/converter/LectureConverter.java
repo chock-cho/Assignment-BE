@@ -11,6 +11,7 @@ import ringle.backend.assignment.repository.LectureRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,17 +50,20 @@ public class LectureConverter {
     public LectureResponseDto.LectureGetResponse toLectureGetResponse(Lecture lecture, Lecture previousLecture, Lecture nextLecture) {
         LectureResponseDto.LectureGetResponse.TimeSlotInfo previousSlotInfo = new LectureResponseDto.LectureGetResponse.TimeSlotInfo(
                 previousLecture != null ? previousLecture.getStartTimeSlot().name() : "N/A",
-                previousLecture != null && previousLecture.isAvailable()
+                previousLecture != null && previousLecture.isAvailable(),
+                Objects.requireNonNull(previousLecture).getId()
         );
 
         LectureResponseDto.LectureGetResponse.TimeSlotInfo currentSlotInfo = new LectureResponseDto.LectureGetResponse.TimeSlotInfo(
                 lecture.getStartTimeSlot().name(),
-                lecture.isAvailable()
+                lecture.isAvailable(),
+                Objects.requireNonNull(previousLecture).getId()
         );
 
         LectureResponseDto.LectureGetResponse.TimeSlotInfo nextSlotInfo = new LectureResponseDto.LectureGetResponse.TimeSlotInfo(
                 nextLecture != null ? nextLecture.getStartTimeSlot().name() : "N/A",
-                nextLecture != null && nextLecture.isAvailable()
+                nextLecture != null && nextLecture.isAvailable(),
+                Objects.requireNonNull(previousLecture).getId()
         );
 
         return LectureResponseDto.LectureGetResponse.builder()
