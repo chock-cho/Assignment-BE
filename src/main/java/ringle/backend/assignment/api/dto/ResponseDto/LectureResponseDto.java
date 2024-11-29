@@ -2,6 +2,8 @@ package ringle.backend.assignment.api.dto.ResponseDto;
 
 import lombok.*;
 
+import java.util.List;
+
 public class LectureResponseDto {
     @Builder
     @Getter
@@ -29,7 +31,8 @@ public class LectureResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LectureGetResponse{
-        private Long id;
+        private Long lectureId;
+        private Long tutorId;
         private String tutorName;
         private String tutorMajor;
         private String tutorUniv;
@@ -50,6 +53,29 @@ public class LectureResponseDto {
             private TimeSlotInfo previousSlot;
             private TimeSlotInfo currentSlot;
             private TimeSlotInfo nextSlot;
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LecturesGetResponseForTutor{
+        private Long tutorId;
+        private String tutorName;
+        private String tutorMajor;
+        private String tutorUniv;
+        private String date;
+        private List<LectureInfo> lectures;
+
+        @Getter
+        @Builder
+        @NoArgsConstructor
+        @AllArgsConstructor
+        public static class LectureInfo {
+            private Long lectureId;
+            private String timeSlot;
+            private boolean isAvailable;
         }
     }
 }

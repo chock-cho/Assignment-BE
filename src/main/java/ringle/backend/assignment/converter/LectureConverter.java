@@ -5,9 +5,11 @@ import lombok.Builder;
 import org.springframework.stereotype.Component;
 import ringle.backend.assignment.api.dto.ResponseDto.LectureResponseDto;
 import ringle.backend.assignment.domain.Lecture;
+import ringle.backend.assignment.domain.Tutor;
 import ringle.backend.assignment.domain.enums.TimeSlot;
 import ringle.backend.assignment.repository.LectureRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,12 +63,33 @@ public class LectureConverter {
         );
 
         return LectureResponseDto.LectureGetResponse.builder()
-                .id(lecture.getId())
+                .lectureId(lecture.getId())
+                .tutorId(lecture.getTutor().getId())
                 .tutorName(lecture.getTutor().getName())
                 .date(String.valueOf(lecture.getDate()))
-                .timeSlots(new LectureResponseDto.LectureGetResponse.TimeSlots(previousSlotInfo, currentSlotInfo, nextSlotInfo))
+                .timeSlots(new LectureResponseDto.LectureGetResponse.TimeSlots
+                        (previousSlotInfo, currentSlotInfo, nextSlotInfo))
                 .isAvailable(lecture.isAvailable())
                 .build();
     }
 
+    public LectureResponseDto.LecturesGetResponseForTutor toLectureGetResponseForTutor(Tutor tutor, List<Lecture> lectures) {
+        List<LectureResponseDto.LecturesGetResponseForTutor.LectureInfo> lectureInfos = new ArrayList<>();
+        for (Lecture lecture : lectures) {
+            LectureResponseDto.LecturesGetResponseForTutor.LectureInfo lectureInfo = LectureResponseDto.LecturesGetResponseForTutor.LectureInfo.builder()
+                    .lectureId(lecture.getId())
+                    .timeSlot(lecture.getStartTimeSlot().name())
+                    .isAvailable(lecture.isAvailable())
+                    .build();
+            lectureInfos.add(lectureInfo);
+        }
+
+        return LectureResponseDto.LecturesGetResponseForTutor.builder()
+                .tutorId(tutor.getId())
+                .tutorName(tutor.getName())
+                .tutorMajor(tutor.getMajor())
+                .tutorUniv(tutor.getUniversity())
+                .lectures(lectureInfos)
+                .build();
+    }
 }

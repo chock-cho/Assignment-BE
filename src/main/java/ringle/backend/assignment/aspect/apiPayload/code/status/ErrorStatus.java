@@ -26,6 +26,7 @@ public enum ErrorStatus implements BaseErrorCode {
     LECTURE_NOT_FOUND(HttpStatus.BAD_REQUEST, "LECTURE4001", "존재하지 않는 수업입니다."),
     LECTURE_FORBIDDEN(HttpStatus.BAD_REQUEST, "LECTURE4002", "수업 시간은 항상 현재 시각 이후여야 합니다."),
     LECTURE_BAD_REQUEST(HttpStatus.BAD_REQUEST, "LECTURE4003", "이미 활성화된 타임 슬롯입니다."),
+    LECTURE_TYPE_BAD_REQUEST(HttpStatus.BAD_REQUEST, "LECTURE4004", "지원하지 않는 수업 타입입니다."),
 
     // Reservation 관련 exception
     RESERVATION_FORBIDDEN(HttpStatus.BAD_REQUEST, "RESERVATION4001", "예약은 수업 시작 30분 전까지만 가능합니다."),

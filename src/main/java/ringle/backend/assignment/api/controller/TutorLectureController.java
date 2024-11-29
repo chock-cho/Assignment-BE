@@ -9,8 +9,10 @@ import ringle.backend.assignment.aspect.annotation.ValidateLecture;
 import ringle.backend.assignment.aspect.apiPayload.exception.ApiResponse;
 import ringle.backend.assignment.api.dto.RequestDto.LectureRequestDto;
 import ringle.backend.assignment.api.dto.ResponseDto.LectureResponseDto;
+import ringle.backend.assignment.domain.enums.TimeSlot;
 import ringle.backend.assignment.service.LectureService.LectureService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -40,7 +42,6 @@ public class TutorLectureController {
                     \s""")
     public ApiResponse<List<LectureResponseDto.LectureCreateResponse>> makeAvailableTimes(
             @RequestBody @Valid LectureRequestDto.LectureCreateRequest req) {
-        Long tutorId = req.getTutorId();
         // -- 사용자 validate 로직 추가 되어야 함 --//
         return ApiResponse.onSuccess(lectureService.activateLecture(req));
     }
