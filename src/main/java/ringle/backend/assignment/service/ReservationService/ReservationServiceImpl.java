@@ -34,7 +34,9 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     @Transactional
     @ValidateReservation
-    public ReservationResponseDto.ReservationCreateResponse makeReservation(Long studentId, ReservationRequestDto.ReservationCreateRequest req){
+    public ReservationResponseDto.ReservationCreateResponse makeReservation(
+            Long studentId,
+            ReservationRequestDto.ReservationCreateRequest req){
         try {
             Lecture startLecture = lectureRepository.findById(req.getStartLectureId())
                     .orElseThrow(() -> new TempHandler(ErrorStatus.RESERVATION_NOT_FOUND));
