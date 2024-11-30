@@ -1,6 +1,8 @@
 # Ringle-BE
 Ringle Back-End 인턴 수행 과제 레포지토리
 
+- 서버 배포 주소: http://43.201.123.185/swagger-ui/index.html#/
+  
 ![001](https://github.com/user-attachments/assets/84b26a6b-f13d-4906-8a61-4e666e1dfe75)
 ![002](https://github.com/user-attachments/assets/c149385d-398d-4934-8e19-84bfe923dd7f)
 ![003](https://github.com/user-attachments/assets/2eddad3d-7322-4891-be9b-ac4e4697c3c3)
