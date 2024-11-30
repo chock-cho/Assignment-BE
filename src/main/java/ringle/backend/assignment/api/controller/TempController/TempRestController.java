@@ -1,4 +1,4 @@
-package ringle.backend.assignment.api.controller;
+package ringle.backend.assignment.api.controller.TempController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
