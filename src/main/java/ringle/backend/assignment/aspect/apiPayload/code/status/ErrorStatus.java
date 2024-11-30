@@ -33,6 +33,7 @@ public enum ErrorStatus implements BaseErrorCode {
     RESERVATION_NOT_FOUND(HttpStatus.BAD_REQUEST, "RESERVATION4002", "해당 예약 요청에 가능한 수업이 없습니다"),
     RESERVATION_IMPOSSIBLE(HttpStatus.BAD_REQUEST, "RESERVATION4003", "해당 예약 요청의 튜터가 가능한 수업이 없습니다."),
     RESERVATION_INVALID_REQEUST(HttpStatus.BAD_REQUEST, "RESERVATION4004", "수업 신청은 30분, 60분 단위로만 가능합니다."),
+    RESERVATION_CONFLICT(HttpStatus.BAD_REQUEST, "RESERVATION4005", "이미 예약된 시간 슬롯입니다."),
 
     // Student 관련 exception
     STUDENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "STUDENT4001", "존재하지 않는 학생입니다.");

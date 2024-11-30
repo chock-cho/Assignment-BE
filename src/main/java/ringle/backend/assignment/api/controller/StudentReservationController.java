@@ -9,6 +9,7 @@ import ringle.backend.assignment.api.dto.RequestDto.ReservationRequestDto;
 import ringle.backend.assignment.api.dto.ResponseDto.ReservationResponseDto;
 import ringle.backend.assignment.aspect.annotation.ValidateReservation;
 import ringle.backend.assignment.aspect.apiPayload.exception.ApiResponse;
+import ringle.backend.assignment.service.ReservationService.ReservationQueryService;
 import ringle.backend.assignment.service.ReservationService.ReservationService;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 @Tag(name = "${swagger.tag.student_reservation}")
 public class StudentReservationController {
     private final ReservationService reservationService;
+    private final ReservationQueryService reservationQueryService;
     @PostMapping("/reservation")
     @Operation(summary = "수업 신청 API - 학생이 튜터가 오픈한 수업을 신청합니다.",
             description = """
@@ -64,6 +66,6 @@ public class StudentReservationController {
                     \s""")
     public ApiResponse<List<ReservationResponseDto.ReservationInfoResponse>> getReservations(
             @RequestParam Long studentId){
-        return ApiResponse.onSuccess(reservationService.getMyReservations(studentId));
+        return ApiResponse.onSuccess(reservationQueryService.getMyReservations(studentId));
     }
 }

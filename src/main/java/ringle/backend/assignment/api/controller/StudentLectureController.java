@@ -13,6 +13,7 @@ import ringle.backend.assignment.aspect.annotation.ValidateReservation;
 import ringle.backend.assignment.aspect.apiPayload.exception.ApiResponse;
 import ringle.backend.assignment.domain.enums.LectureType;
 import ringle.backend.assignment.domain.enums.TimeSlot;
+import ringle.backend.assignment.service.LectureService.LectureQueryService;
 import ringle.backend.assignment.service.LectureService.LectureService;
 
 import java.time.LocalDate;
@@ -23,8 +24,7 @@ import java.util.List;
 @RequestMapping("/api/student")
 @Tag(name = "${swagger.tag.student_lecture}")
 public class StudentLectureController {
-    private final LectureService lectureService;
-
+    private final LectureQueryService lectureQueryService; //GET 메서드
     @GetMapping("/available-tutors")
     @ValidateReservation
     @Operation(summary = "수업 가능한 튜터 조회 API - {시작 시간 & 수업 길이}로 수업 가능한 튜터 조회",
@@ -40,7 +40,7 @@ public class StudentLectureController {
             @RequestParam LocalDate date,
             @RequestParam TimeSlot timeSlot,
             @RequestParam LectureType lectureType) {
-        return ApiResponse.onSuccess(lectureService.getAvailableTutors(date, timeSlot, lectureType));
+        return ApiResponse.onSuccess(lectureQueryService.getAvailableTutors(date, timeSlot, lectureType));
     }
 
     @GetMapping("/available-lectures")
@@ -58,6 +58,6 @@ public class StudentLectureController {
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate,
             @RequestParam LectureType lectureType){
-        return ApiResponse.onSuccess(lectureService.getAvailableLectures(startDate, endDate, lectureType));
+        return ApiResponse.onSuccess(lectureQueryService.getAvailableLectures(startDate, endDate, lectureType));
     }
 }

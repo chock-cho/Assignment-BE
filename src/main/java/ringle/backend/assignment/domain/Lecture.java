@@ -57,6 +57,11 @@ public class Lecture extends BaseEntity {
     @JoinColumn(name="reservation_id")
     private Reservation reservation;  // 수업에 대한 예약 정보 (예약된 경우에만 존재)
 
+    // 낙관적 락-- 버전 필드
+    @Version
+    @Column
+    private Integer version;
+
     // TimeSlot을 LocalTime으로 변환하는 메서드
     public LocalTime toLocalTime() {
         int hour = (this.startTimeSlot.getOrder() - 1) / 2; // order 값을 기준으로 시간 계산
