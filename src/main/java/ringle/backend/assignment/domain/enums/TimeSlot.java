@@ -36,4 +36,11 @@ public enum TimeSlot {
         return slots[nextIndex]; // 다음 슬롯 반환
     }
 
+    // TimeSlot -> LocalTime 변환
+    public LocalTime toLocalTime(){
+        int hours = (order-1)/2;
+        int minutes = ((order-1)%2 == 0)? 0: 30;
+        return LocalTime.of(hours, minutes);
+    }
+
 }

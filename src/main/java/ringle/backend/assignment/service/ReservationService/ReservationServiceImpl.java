@@ -43,11 +43,14 @@ public class ReservationServiceImpl implements ReservationService{
             Lecture endLecture = lectureRepository.findById(req.getEndLectureId())
                     .orElseThrow(() -> new TempHandler(ErrorStatus.RESERVATION_NOT_FOUND));
 
-            LectureType reqlectureType = null;
+            if(!startLecture.isAvailable() || !endLecture.isAvailable())
+                throw new TempHandler(ErrorStatus.RESERVATION_ALREADY_BOOKED);
+
             if (!startLecture.getTutor().getId().equals(req.getTutorId())
                     || !endLecture.getTutor().getId().equals(req.getTutorId()))
                 throw new TempHandler(ErrorStatus.RESERVATION_NOT_FOUND);
 
+            LectureType reqlectureType = null;
             if (areLecturesConsecutive(startLecture, endLecture) == -1)
                 // 수업 신청 시 30분, 60분 단위로 수업 신청 가능, 연속된 타임슬롯만 신청 가능
                 throw new TempHandler(ErrorStatus.RESERVATION_INVALID_REQEUST);
@@ -60,7 +63,6 @@ public class ReservationServiceImpl implements ReservationService{
                     () -> new TempHandler(ErrorStatus.STUDENT_NOT_FOUND));
 
             Tutor reqTutor = startLecture.getTutor(); // 해당 수업에 해당하는 튜터 정보
-
             Reservation newReservation = reservationConverter.toEntity(startLecture, endLecture, reqStudent, reqTutor, reqlectureType);
             reservationRepository.save(newReservation);
 
@@ -71,7 +73,7 @@ public class ReservationServiceImpl implements ReservationService{
 
             return ReservationConverter.toCreateResponseDto(newReservation);
         } catch (OptimisticLockException e){
-            throw new TempHandler(ErrorStatus.RESERVATION_CONFLICT);
+            throw new TempHandler(ErrorStatus.RESERVATION_ALREADY_BOOKED);
         }
     }
 
