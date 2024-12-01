@@ -1,19 +1,29 @@
 # Ringle-BE
-Ringle Back-End 인턴 수행 과제 레포지토리
+---
+- API Test 가능한 서버 배포 주소: http://43.201.123.185/swagger-ui/index.html#/
+---
+## 사전 과제 요구 사항 분석
+- 학생과 튜터 간 1:1 수업 예약을 위한 API 서비스 
+- 예약할 수 있는 수업의 타입: [30분 수업]과 [60분 수업]
+  -  모든 수업은 정각(예: 10:00) 또는 30분 단위(예: 10:30)로 시작
+- 튜터가 자신의 가능한 시간을 관리하고, 학생이 효율적으로 수업을 예약할 수 있도록 지원
 
-![001](https://github.com/user-attachments/assets/84b26a6b-f13d-4906-8a61-4e666e1dfe75)
-![002](https://github.com/user-attachments/assets/c149385d-398d-4934-8e19-84bfe923dd7f)
-![003](https://github.com/user-attachments/assets/2eddad3d-7322-4891-be9b-ac4e4697c3c3)
-![004](https://github.com/user-attachments/assets/7ac841a8-f007-454d-a543-6eabb3a941fb)
-![005](https://github.com/user-attachments/assets/cf29d41f-b5c3-436c-baa0-3b4bb631e599)
-![006](https://github.com/user-attachments/assets/d5a49fe2-e373-44fb-a3b1-a5680a77c52b)
-![007](https://github.com/user-attachments/assets/c187a149-5f5b-45b8-b5c2-b1c3b88ec80a)
-![008](https://github.com/user-attachments/assets/8a03d539-0776-4d6d-94ed-f256080c05ce)
-![009](https://github.com/user-attachments/assets/33301caa-5eef-480d-a997-211d0985b662)
-![010](https://github.com/user-attachments/assets/8898f878-504d-4ac3-b0e8-5db188027c13)
-![011](https://github.com/user-attachments/assets/9f24a765-d90d-4de0-aed0-f4ad001152b6)
-![012](https://github.com/user-attachments/assets/739d2b63-61a7-4682-b1f4-54ce77807b10)
-![013](https://github.com/user-attachments/assets/8875d851-4631-459d-b42b-f186ff7cadb0)
-![014](https://github.com/user-attachments/assets/1b9e8be7-fd07-4ba8-a5b7-3de7f7ad4696)
-![015](https://github.com/user-attachments/assets/38a91edb-e9d5-42e7-9ee3-f9fb775ceab7)
-![016](https://github.com/user-attachments/assets/1695cfe8-5064-413a-95e4-0b01659f9739)
+## 기능
+### 1. 튜터용 API:`/api/tutor`
+
+#### 1-1. 수업 가능 시간대 생성: `POST /api/tutor`
+  - 튜터가 지정된 타임슬롯(30분 단위)을 드래그하여, 수업 가능한 시간대를 생성 
+#### 1-2. 수업 가능 시간대 삭제: `DELETE /api/tutor` 
+  - 튜터가 생성된 수업 가능 시간대를 삭제
+### 2. 학생용 API: `/api/student`
+
+#### 2-1. 수업 가능 시간대 조회: `GET /api/student/available-lectures`
+  - 특정 기간(`startDate-endDate`), 수업 길이(`lectureType`)에 따라 현재 가능한 시간대를 조회
+#### 2-2. 수업 가능한 튜터 조회: `GET /api/student/available-tutors`
+  - 특정 날짜(`date`), 시작 시간대(`startTimeSlot`)와 수업 길이(`lectureType`)에 따라 예약 가능한 튜터를 조회
+#### 2-3. 새로운 수업 신청: `POST /api/student/reservation`
+  - 조회한 수업 정보를 바탕으로, 수업을 예약
+#### 2-4. 예약된 수업 조회: `GET /api/student/myReservation`
+  - 학생이 신청한 수업 목록(예정된 수업 및 완료된 수업)을 확인
+
+![Ringle-인턴-과제-수행-회고록](https://github.com/user-attachments/assets/f73da75a-ccb4-41fd-a50d-d743b8d87b1f)
