@@ -17,7 +17,7 @@
 
 ### [로컬 서버 실행] 터미널에서 실행
 
-본 실행 방법은 Linux OS, JAVA openjdk-17, MySQL 8.0, Gradle, Docker Compose가 설치되어있는 환경을 가정합니다.
+본 실행 방법은 Ubuntu Linux OS, JAVA openjdk-17, MySQL 8.0, Gradle, Docker Compose가 설치되어있는 환경을 가정합니다.
 
 
 1️⃣ github 레포지토리에서 클론을 받아옵니다.
@@ -47,8 +47,9 @@ sudo vim .env
     
 
 4️⃣ backend app을 빌드합니다.
+- 인스턴스의 한정된 리소스를 고려하여, test를 건너 뛰고 빌드를 해줍니다.
 ```bash
-./gradlew build 
+./gradlew build -x test
 ```
  
 - 만약, `Permission denied`로 빌드가 되지 않는다면 다음과 같이 명령어를 입력해주세요.
