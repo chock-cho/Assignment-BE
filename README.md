@@ -46,12 +46,22 @@ sudo vim .env
     ```
     
 
-4️⃣ 도커 이미지를 새로 빌드하고 컨테이너를 실행합니다. 
+4️⃣ backend app을 빌드합니다.
+```bash
+./gradlew build 
+```
+ 
+- 만약, `Permission denied`로 빌드가 되지 않는다면 다음과 같이 명령어를 입력해주세요.
+    
+    ```bash
+    sudo chmod +x ./gradlew
+    ```
+    
+5️⃣ 도커 이미지를 새로 빌드하고 컨테이너를 실행합니다. 
 ```bash
 docker-compose up --build 
 ```
-
-5️⃣ Swagger 접속
+6️⃣ Swagger 접속
 API Test를 위해,  http://localhost:8080/swagger-ui.html 로 접속해봅니다.
 
 ---
@@ -63,13 +73,13 @@ API Test를 위해,  http://localhost:8080/swagger-ui.html 로 접속해봅니�
 
 2️⃣ .env파일에 다음 정보를 입력합니다.
 
-```
+
     MYSQL_URL={mysql url: 로컬일 경우 localhost}
     MYSQL_PORT=3306
     MYSQL_DB={db이름}
     MYSQL_USER={db username}
     MYSQL_PW={db password}
-```
+
     
 3️⃣ 상단의 `▶️` 버튼을 눌러 실행합니다.<br>
 ![image](https://github.com/user-attachments/assets/ec64bd17-6922-4257-91de-f029b5dfce5c)
