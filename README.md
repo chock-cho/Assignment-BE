@@ -17,7 +17,7 @@
 
 ### [로컬 서버 실행] 터미널에서 실행
 
-본 실행 방법은 Linux OS, JAVA openjdk-17, MySQL 8.0, Gradle, Docker가 설치되어있는 환경을 가정합니다.
+본 실행 방법은 Linux OS, JAVA openjdk-17, MySQL 8.0, Gradle, Docker Compose가 설치되어있는 환경을 가정합니다.
 
 
 1️⃣ github 레포지토리에서 클론을 받아옵니다.
