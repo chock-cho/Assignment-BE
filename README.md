@@ -27,7 +27,7 @@ git clone https://github.com/chock-cho/Assignment-BE.git
 
 2️⃣ 프로젝트의 루트로 이동합니다.
 ```bash
-cd Ringle-BE
+cd Assignment-BE
 ```
 
 3️⃣ `.env` 파일을 생성합니다. (환경 변수들의 안전한 관리를 위함) 
