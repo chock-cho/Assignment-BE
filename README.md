@@ -1,4 +1,4 @@
-# Ringle-BE
+# Assignment-BE
 
 ---
 
@@ -22,7 +22,7 @@
 
 1️⃣ github 레포지토리에서 클론을 받아옵니다.
 ```bash
-git clone https://github.com/chock-cho/Ringle-BE.git
+git clone https://github.com/chock-cho/Assignment-BE.git
 ```
 
 2️⃣ 프로젝트의 루트로 이동합니다.
