@@ -21,19 +21,16 @@
 
 
 1️⃣ github 레포지토리에서 클론을 받아옵니다.
-
 ```bash
 git clone https://github.com/chock-cho/Ringle-BE.git
 ```
 
 2️⃣ 프로젝트의 루트로 이동합니다.
-
 ```bash
 cd Ringle-BE
 ```
 
 3️⃣ `.env` 파일을 생성합니다. (환경 변수들의 안전한 관리를 위함) 
-
 ```bash
 sudo vim .env
 ```
@@ -50,13 +47,34 @@ sudo vim .env
     
 
 4️⃣ 도커 이미지를 새로 빌드하고 컨테이너를 실행합니다. 
-
 ```bash
 docker-compose up --build 
 ```
 
 5️⃣ Swagger 접속
+API Test를 위해,  http://localhost:8080/swagger-ui.html 로 접속해봅니다.
 
+---
+### [로컬 서버 실행] IDE에서 실행
+본 상황은 IntelliJ  IDE 가 설치된 환경을 가정합니다.
+
+1️⃣ 프로젝트 루트 디렉토리에 `.env` 파일을 생성합니다.
+<br> ![image](https://github.com/user-attachments/assets/81b7b0b1-89db-4fd4-86f1-645569628701)
+
+2️⃣ .env파일에 다음 정보를 입력합니다.
+
+```
+    MYSQL_URL={mysql url: 로컬일 경우 localhost}
+    MYSQL_PORT=3306
+    MYSQL_DB={db이름}
+    MYSQL_USER={db username}
+    MYSQL_PW={db password}
+```
+    
+3️⃣ 상단의 `▶️` 버튼을 눌러 실행합니다.<br>
+![image](https://github.com/user-attachments/assets/ec64bd17-6922-4257-91de-f029b5dfce5c)
+<br>
+4️⃣ Swagger 접속
 API Test를 위해,  http://localhost:8080/swagger-ui.html 로 접속해봅니다.
 
 ## 기능
