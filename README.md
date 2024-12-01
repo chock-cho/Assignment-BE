@@ -109,4 +109,6 @@ API Test를 위해,  http://localhost:8080/swagger-ui.html 로 접속해봅니�
 
 - 학생이 신청한 수업 목록(예정된 수업 및 완료된 수업)을 확인
 
-![Ringle-인턴-과제-수행-회고록](https://github.com/user-attachments/assets/f73da75a-ccb4-41fd-a50d-d743b8d87b1f)
+
+![Ringle-인턴-과제-수행-회고록 (2)](https://github.com/user-attachments/assets/589bc9b4-0119-4845-b8a6-9660852a4cb5)
+
