@@ -94,7 +94,6 @@ public class LectureQueryServiceImpl implements LectureQueryService {
                     .tutorName(tutor.getName())
                     .tutorMajor(tutor.getMajor())
                     .tutorUniv(tutor.getUniversity())
-                    .date(String.valueOf(date))
                     .timeSlots(new LectureResponseDto.LectureGetResponse.TimeSlots(previousSlotInfo, currentSlotInfo, nextSlotInfo))
                     .isAvailable(availableLectures.get(0).isAvailable())
                     .build();

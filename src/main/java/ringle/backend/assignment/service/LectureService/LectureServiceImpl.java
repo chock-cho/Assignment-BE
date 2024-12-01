@@ -71,7 +71,7 @@ public class LectureServiceImpl implements LectureService {
         Lecture lecture = lectureRepository.findById(lectureId)
                 .orElseThrow(() -> new TempHandler(ErrorStatus.LECTURE_NOT_FOUND));
 
-        if (!Objects.equals(lecture.getTutor().getId(), lectureId))
+        if (!Objects.equals(lecture.getTutor().getId(), tutorId))
             throw new TempHandler(ErrorStatus.TUTOR_FORBIDDEN);
 
         lectureRepository.delete(lecture);

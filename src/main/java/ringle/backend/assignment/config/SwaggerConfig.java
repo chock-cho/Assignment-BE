@@ -32,6 +32,8 @@ public class SwaggerConfig {
                 .description("""
                         ### Ringle BackEnd 인턴 과제 수행 REST API 명세 문서입니다.
                         - #### 자물쇠 버튼으로 `Authorization` 헤더 설정이 가능합니다.
+                        - #### ️ API test 순서는 튜터 API A ➡️ 학생 API B ➡️ 학생 API C 순서로 진행해주세요.
+                            - #### ⚠️ 각 API에 적혀있는 `STEP [숫자]` 순서대로 진행해주세요.
                         """)
                 .version("v0.1");
         return new OpenAPI()

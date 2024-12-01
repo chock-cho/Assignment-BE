@@ -36,7 +36,6 @@ public class LectureResponseDto {
         private String tutorName;
         private String tutorMajor;
         private String tutorUniv;
-        private String date;
         private TimeSlots timeSlots;
         private boolean isAvailable;
 
